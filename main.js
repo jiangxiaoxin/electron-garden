@@ -1,7 +1,6 @@
 const {
   app,
-  BrowserWindow,
-  dialog
+  BrowserWindow
 } = require('electron')
 
 let mainWindow = null
