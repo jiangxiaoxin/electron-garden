@@ -11,7 +11,7 @@ console.log(rect);
 const size = new Point(stage.clientWidth, stage.clientHeight)
 const center = new Point(size.x / 2, size.y / 2)
 
-const scale = 2
+const scale = 2 //放大倍数，1倍太小了。放大倍数变大，相应的其实count也要变大才不会那么锯齿
 const points = []
 const count = 50
 for (let index = 0; index < count; index++) {
