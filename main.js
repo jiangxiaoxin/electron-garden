@@ -5,7 +5,6 @@ const {
 
 let mainWindow = null
 
-// 在主进程里这么访问可以，因为process就是当前的主进程，在渲染进程里不能如此判断是否debug模式
 const debug = /--debug/.test(process.argv[2])
 console.log(`debug: ${debug}`)
 
@@ -34,13 +33,6 @@ function createWindow() {
 function readyHandler(e) {
   console.log("app ready");
   createWindow();
-
-  // 添加laungh.json后可以从vscode里直接启动调试
-  // const array = [1,2,3,4]
-  // for (let index = 0; index < array.length; index++) {
-  //   const element = array[index];
-  //   console.log(element)
-  // }
 }
 
 /**
