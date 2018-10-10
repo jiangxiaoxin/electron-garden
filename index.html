@@ -18,20 +18,53 @@
       color: #9feaf9;
       font-weight: bold;
     }
+
+    .control {
+      margin: 10px auto;
+    }
   </style>
 </head>
 
 <body>
   <h2>hello, <span>electron</span></h2>
-  <div>
+  <div class="control">
+    <button class="get-all-windows-btn">get all windows</button>
+  </div>
+  <div class="control">
     <button class="show-message-dialog-btn">show message dialog</button>
     <button class="show-heart-window-btn">show heart window</button>
+  </div>
+  <div class="control">
+    <p>ipc通信</p>
+    <div class="control">
+      <button class="new-window-btn-a">window a</button>
+      <button class="new-window-btn-b">window b</button>
+    </div>
+    <div class="control">
+      <button class="ipc-main-send-btn-a">main -> a</button>
+      <button class="ipc-main-send-btn-b">main -> b</button>
+    </div>
+    <div class="control">
+     <p>
+       <span>window a -> main</span>
+       <span class="a-2-main"></span>
+     </p>
+     <p>
+        <span>window b -> main</span>
+        <span class="b-2-main"></span>
+     </p>
+    </div>
+    <div class="control">
+      <button class="main-a-main-b-main">main -> a -> main -> b -> main</button>
+    </div>
   </div>
 </body>
 
 <script>
+  require("./src/others/main.test.js")
   require("./src/others/show.a.dialog.js")
   require("./src/others/show.heart.window.js")
+  require("./src/others/ipc.main.renderer.js")
 </script>
 
 </html>
