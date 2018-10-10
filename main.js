@@ -15,8 +15,14 @@ const windowConfig = {
 }
 
 app.on("ready", readyHandler)
+// activate这个事件只有mac上才会调用
 app.on("activate", activateHandler)
 app.on("window-all-closed", allClosedHandler)
+
+app.on("browser-window-created", function(e) {
+  console.log("browser-window-created");
+  console.log(e);
+})
 
 function createWindow() {
   mainWindow = new BrowserWindow(windowConfig)
