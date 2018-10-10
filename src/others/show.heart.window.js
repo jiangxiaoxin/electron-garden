@@ -1,4 +1,6 @@
-const { BrowserWindow } = require("electron").remote
+const {
+  BrowserWindow
+} = require("electron").remote
 const path = require("path")
 const btns = document.getElementsByClassName("show-heart-window-btn")
 const btn = btns[0]
@@ -7,6 +9,7 @@ btn.addEventListener("click", () => {
 })
 
 let heartWindow = null
+
 function createHeartWindow() {
   heartWindow = new BrowserWindow({
     width: 800,
@@ -18,6 +21,5 @@ function createHeartWindow() {
 
   let url = path.join("file://", __dirname, "../template/heart.window.html")
   heartWindow.loadURL(url)
-  heartWindow.webContents.openDevTools()
   heartWindow.show();
 }
