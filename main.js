@@ -1,11 +1,11 @@
 const {
   app,
-  BrowserWindow,
-  dialog
+  BrowserWindow
 } = require('electron')
 
 let mainWindow = null
 
+// 在主进程里这么访问可以，因为process就是当前的主进程，在渲染进程里不能如此判断是否debug模式
 const debug = /--debug/.test(process.argv[2])
 console.log(`debug: ${debug}`)
 
@@ -15,8 +15,16 @@ const windowConfig = {
 }
 
 app.on("ready", readyHandler)
+
+// activate这个事件只有mac上才会调用
 app.on("activate", activateHandler)
+
 app.on("window-all-closed", allClosedHandler)
+
+app.on("browser-window-created", function(e) {
+  console.log("browser-window-created");
+  console.log(e);
+})
 
 function createWindow() {
   mainWindow = new BrowserWindow(windowConfig)
@@ -34,6 +42,13 @@ function createWindow() {
 function readyHandler(e) {
   console.log("app ready");
   createWindow();
+
+  // 添加laungh.json后可以从vscode里直接启动调试
+  // const array = [1,2,3,4]
+  // for (let index = 0; index < array.length; index++) {
+  //   const element = array[index];
+  //   console.log(element)
+  // }
 }
 
 /**
