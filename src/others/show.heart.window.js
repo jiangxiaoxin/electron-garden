@@ -21,7 +21,7 @@ function createHeartWindow() {
     heartWindow = null
   })
 
-  let url = path.join("file://", __dirname, "../template/heart.window.html")
+  let url = path.join("file://", __dirname, "../pages/heart.window.html")
   heartWindow.on("ready-to-show", readyToShow)
   heartWindow.loadURL(url)
 }
