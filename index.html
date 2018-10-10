@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./src/static/reset.css">
+  <title>First Electron App</title>
+  <style>
+    h2 {
+      background-color: #2f3241;
+      font-size: 30px;
+      color: white;
+    }
+
+    h2 span {
+      color: #9feaf9;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>hello, <span>electron</span></h2>
+  <div>
+    <button class="show-message-dialog-btn">show message dialog</button>
+  </div>
+</body>
+
+<script>
+  require("./src/others/show.a.dialog.js")
+</script>
+
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "electron-garden",
+  "version": "1.0.0",
+  "description": "electron desktop app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --debug"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiangxiaoxin/electron-garden.git"
+  },
+  "keywords": [
+    "electron",
+    "desktop",
+    "app"
+  ],
+  "author": "helloca",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jiangxiaoxin/electron-garden/issues"
+  },
+  "homepage": "https://github.com/jiangxiaoxin/electron-garden#readme",
+  "devDependencies": {
+    "electron": "^3.0.3",
+    "jquery": "^3.3.1"
+  }
+}
