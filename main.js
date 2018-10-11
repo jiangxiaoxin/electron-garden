@@ -1,38 +1,46 @@
 const {
   app,
-  BrowserWindow
+  BrowserWindow,
+  Tray,
+  Menu
 } = require('electron')
 
+const path = require("path")
+
+app.setName("MenuBarApp")
+
 let mainWindow = null
+let appIcon = null
 
 const debug = /--debug/.test(process.argv[2])
 console.log(`debug: ${debug}`)
 
+const locked = app.requestSingleInstanceLock()
+if (!locked) {
+  app.quit();
+}
+
 app.on("ready", readyHandler)
 app.on("activate", activateHandler)
 app.on("window-all-closed", allClosedHandler)
-
-function createWindow() {
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    resizable: false,
-    center: true
-  })
-  mainWindow.loadFile("index.html")
-  mainWindow.on("closed", function(e) {
-    console.log("main window closed");
-  })
-
-  if (debug) {
-    mainWindow.webContents.openDevTools();
+app.on("second-instance", (event, commandLine, workingDirectory) => {
+  console.log("second-instance");
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) {
+      mainWindow.restore()
+    }
+    mainWindow.focus()
   }
-  
-}
+})
+app.on("before-quit", () => {
+  if (appIcon && appIcon.isDestroyed() === false) {
+    appIcon.destory();
+  }
+})
 
 function readyHandler(e) {
   console.log("app ready");
-  createWindow();
+  createAppIcon()
 }
 
 /**
@@ -45,13 +53,44 @@ function activateHandler(e) {
   }
 }
 
-/**
- * windows窗口都关掉之后就意味着程序结束了，mac关闭窗口后并没有结束，其按钮栏还在，程序还是存活的
- */
 function allClosedHandler(e) {
   console.log("app all windows closed");
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
 }
 
+function createAppIcon() {
+  const iconPath = path.join(__dirname, "./src/assets/app.ico");
+  appIcon = new Tray(iconPath)
+  const appName = app.getName()
+  appIcon.setToolTip(appName);
+  const contextMenu = Menu.buildFromTemplate([{
+    label: "打开主窗口",
+    click: function () {
+      //TODO:这里直接调用createMainWindow，如果真的重新创建窗口，那么应该也没事吧
+      createMainWindow();
+    }
+  }, {
+    label: "退出",
+    click: function () {
+      app.quit();
+    }
+  }])
+  appIcon.setContextMenu(contextMenu);
+}
+
+function createMainWindow() {
+  console.log("call createMainWindow");
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    resizable: false,
+    center: true,
+    show: false
+  })
+  mainWindow.loadFile("index.html")
+  mainWindow.on("closed", function (e) {
+    console.log("main window closed");
+  })
+  mainWindow.on("ready-to-show", () => {
+    mainWindow.show()
+  })
+}
