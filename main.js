@@ -18,12 +18,21 @@ console.log(`debug: ${debug}`)
 const locked = app.requestSingleInstanceLock()
 if (!locked) {
   app.quit();
+} else {
+  app.on("ready", readyHandler)
+  app.on("activate", activateHandler)
+  app.on("window-all-closed", allClosedHandler)
+  app.on("second-instance", secondInstanceHandler)
+  app.on("before-quit", beforeQuitHandler)
 }
 
-app.on("ready", readyHandler)
-app.on("activate", activateHandler)
-app.on("window-all-closed", allClosedHandler)
-app.on("second-instance", (event, commandLine, workingDirectory) => {
+function beforeQuitHandler() {
+  if (appIcon && appIcon.isDestroyed() === false) {
+    appIcon.destory();
+  }
+}
+
+function secondInstanceHandler(event, commandLine, workingDirectory) {
   console.log("second-instance");
   if (mainWindow) {
     if (mainWindow.isMinimized()) {
@@ -31,12 +40,8 @@ app.on("second-instance", (event, commandLine, workingDirectory) => {
     }
     mainWindow.focus()
   }
-})
-app.on("before-quit", () => {
-  if (appIcon && appIcon.isDestroyed() === false) {
-    appIcon.destory();
-  }
-})
+}
+
 
 function readyHandler(e) {
   console.log("app ready");
