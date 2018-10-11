@@ -29,24 +29,22 @@ if (!locked) {
 function beforeQuitHandler() {
   if (appIcon && appIcon.isDestroyed() === false) {
     appIcon.destory();
+    appIcon = null
   }
 }
 
 function secondInstanceHandler(event, commandLine, workingDirectory) {
   console.log("second-instance");
-  if (mainWindow) {
-    if (mainWindow.isMinimized()) {
-      mainWindow.restore()
-    }
-    mainWindow.focus()
-  }
+  toggleMainWindow();
 }
 
 
 function readyHandler(e) {
   console.log("app ready");
+  createMainWindow();
   createAppIcon()
 }
+
 
 /**
  * 给mac准备的，mac关掉窗口之后，程序还是存活的，点击dock之后如果没有窗口了就重新建立窗口
@@ -62,6 +60,29 @@ function allClosedHandler(e) {
   console.log("app all windows closed");
 }
 
+/**
+ * 切换mainwindow的显示。
+ */
+function toggleMainWindow() {
+  if (!mainWindow) {
+    return
+  }
+
+  if (mainWindow.isVisible()) {
+    mainWindow.hide()
+    return
+  }
+
+  placeMainWindow()
+  if (mainWindow.isMinimized()) {
+    mainWindow.restore()
+  }
+  if (mainWindow.isVisible() === false) {
+    mainWindow.show()
+  }
+  mainWindow.focus()
+}
+
 function createAppIcon() {
   const iconPath = path.join(__dirname, "./src/assets/app.ico");
   appIcon = new Tray(iconPath)
@@ -70,8 +91,7 @@ function createAppIcon() {
   const contextMenu = Menu.buildFromTemplate([{
     label: "打开主窗口",
     click: function () {
-      //TODO:这里直接调用createMainWindow，如果真的重新创建窗口，那么应该也没事吧
-      createMainWindow();
+      toggleMainWindow()
     }
   }, {
     label: "退出",
@@ -80,22 +100,41 @@ function createAppIcon() {
     }
   }])
   appIcon.setContextMenu(contextMenu);
+  appIcon.on("click", toggleMainWindow);
+}
+
+function placeMainWindow() {
+  if (!mainWindow) {
+    console.log("place main window, but no main window")
+    return
+  }
+  const iconBounds = appIcon.getBounds()
+  const windowBounds = mainWindow.getBounds()
+  let y = 0;
+  let x = Math.round(iconBounds.x + (iconBounds.width - windowBounds.width) / 2)
+  if (process.platform === "darwin") {
+    y = Math.round(iconBounds.y + iconBounds.height + 5)
+  } else {
+    y = Math.round(iconBounds.y - windowBounds.height - 5)
+  }
+  mainWindow.setPosition(x, y)
 }
 
 function createMainWindow() {
   console.log("call createMainWindow");
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 300,
+    height: 300,
     resizable: false,
-    center: true,
-    show: false
+    show: false,
+    frame: false
   })
   mainWindow.loadFile("index.html")
   mainWindow.on("closed", function (e) {
     console.log("main window closed");
-  })
-  mainWindow.on("ready-to-show", () => {
-    mainWindow.show()
+    mainWindow = null
+  }),
+  mainWindow.on("blur", function (e) {
+    mainWindow.hide()
   })
 }
