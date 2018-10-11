@@ -4,8 +4,10 @@
   "description": "electron desktop app",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "dev": "electron . --debug"
+    "start": "npm run build && electron ./dist/main.js",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "tslint -c tslint.json -p tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -24,6 +26,8 @@
   "homepage": "https://github.com/jiangxiaoxin/electron-garden#readme",
   "devDependencies": {
     "electron": "^3.0.3",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.2"
   }
 }
