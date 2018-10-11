@@ -8,8 +8,29 @@
   <link rel="stylesheet" href="./src/static/reset.css">
   <title>First Electron App</title>
   <style>
-    h2 {
+
+    html {
+      height: 100%;
+      overflow: hidden;
+    }
+    body {
+      margin: 0 auto;
+      text-align: center;
       background-color: #2f3241;
+      position: relative;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .welcome-wrapper {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    h2 {
+      padding: 10px 10px;
       font-size: 30px;
       color: white;
     }
@@ -18,12 +39,19 @@
       color: #9feaf9;
       font-weight: bold;
     }
+
+    button {
+      margin: 100px auto;
+      padding: 10px 10px;
+      border: none;
+      border-radius: 20px;
+    }
   </style>
 </head>
 
 <body>
-  <h2>hello, <span>electron</span></h2>
-  <div>
+  <div class="welcome-wrapper">
+    <h2>hello, <span>electron</span></h2>
     <button class="show-message-dialog-btn">show message dialog</button>
   </div>
 </body>

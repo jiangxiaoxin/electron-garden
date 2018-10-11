@@ -8,17 +8,17 @@ let mainWindow = null
 const debug = /--debug/.test(process.argv[2])
 console.log(`debug: ${debug}`)
 
-const windowConfig = {
-  width: 800,
-  height: 600
-}
-
 app.on("ready", readyHandler)
 app.on("activate", activateHandler)
 app.on("window-all-closed", allClosedHandler)
 
 function createWindow() {
-  mainWindow = new BrowserWindow(windowConfig)
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    resizable: false,
+    center: true
+  })
   mainWindow.loadFile("index.html")
   mainWindow.on("closed", function(e) {
     console.log("main window closed");
