@@ -6,4 +6,8 @@ var p = document.createElement("p");
 p.innerHTML = "JYX";
 p.style.margin = "10px auto";
 container.append(p);
+var btn = document.querySelector("button");
+btn.addEventListener("click", function () {
+    window.alert("hello");
+});
 //# sourceMappingURL=renderer.js.map
