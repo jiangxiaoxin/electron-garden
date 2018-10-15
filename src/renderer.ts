@@ -1,15 +1,38 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
+import { remote } from "electron";
+import * as fs from "fs";
 
-let container = document.querySelector("h2");
+let openFile = document.getElementById("open-file-btn");
+openFile.addEventListener("click", () => {
+  try {
+    let files = remote.dialog.showOpenDialog({
+      properties: ["openFile"],
+      filters: [
+        { name: "image", extensions: ["png", "jpg"] }
+      ]
+    });
 
-let p = document.createElement("p");
-p.innerHTML = "JYX";
-p.style.margin = "10px auto";
-container.append(p);
+    if (!files || files.length === 0) {
+      console.log("没取到文件");
+      return;
+    }
 
-let btn = document.querySelector("button");
-btn.addEventListener("click", () => {
-  window.alert("hello");
-});
+    let file = files[0];
+    console.log(`读file: ${file}`);
+
+    fs.stat(file, (err, stats) => {
+      if (err) {
+        console.error(err.message);
+        return;
+      }
+      console.log(stats);
+    })
+
+  } catch (error) {
+    console.error(`read file error: ${error.message}`);
+  }
+
+
+
+
+
+})

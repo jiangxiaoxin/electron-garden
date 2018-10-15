@@ -8,11 +8,11 @@
   <link rel="stylesheet" href="./src/static/reset.css">
   <title>First Electron App</title>
   <style>
-
     html {
       height: 100%;
       overflow: hidden;
     }
+
     body {
       margin: 0 auto;
       text-align: center;
@@ -41,10 +41,13 @@
     }
 
     button {
-      margin: 100px auto;
       padding: 10px 10px;
       border: none;
-      border-radius: 20px;
+      border-radius: 5px;
+    }
+    section {
+      margin: 5px auto;
+      text-align: center;
     }
   </style>
 </head>
@@ -52,13 +55,17 @@
 <body>
   <div class="welcome-wrapper">
     <h2>hello, <span>electron</span></h2>
-    <button>alert</button>
+    <section>
+      <button id="win-alert-btn">alert</button>
+    </section>
+    <section>
+      <button id="open-file-btn">open file</button>
+    </section>
   </div>
 </body>
 
 <script>
-  //TIPS: 这里直接引用ts代码就行了
-  require("./src/renderer.ts")
+  require("./dist/renderer.js")
 </script>
 
 </html>
