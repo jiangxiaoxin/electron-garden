@@ -1,5 +1,6 @@
 import { remote } from "electron";
 import * as fs from "fs";
+import { loop } from "./com/test";
 
 let openFile = document.getElementById("open-file-btn");
 openFile.addEventListener("click", () => {
@@ -30,9 +31,9 @@ openFile.addEventListener("click", () => {
   } catch (error) {
     console.error(`read file error: ${error.message}`);
   }
-
-
-
-
-
 })
+
+let alertBtn = document.getElementById("win-alert-btn");
+alertBtn.onclick = () => {
+  loop();
+}

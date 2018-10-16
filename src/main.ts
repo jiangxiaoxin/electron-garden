@@ -6,9 +6,9 @@ let mainWindow: Electron.BrowserWindow;
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    height: 600,
+    height: 800,
     show: false,
-    width: 800,
+    width: 1200,
   });
 
   // and load the index.html of the app.
