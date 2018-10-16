@@ -10,7 +10,7 @@ const debug = /--debug/.test(process.argv[2])
 console.log(`debug: ${debug}`)
 
 const windowConfig = {
-  width: 800,
+  width: 1200,
   height: 600
 }
 
@@ -21,7 +21,7 @@ app.on("activate", activateHandler)
 
 app.on("window-all-closed", allClosedHandler)
 
-app.on("browser-window-created", function(e) {
+app.on("browser-window-created", function (e) {
   console.log("browser-window-created");
   console.log(e);
 })
@@ -29,14 +29,14 @@ app.on("browser-window-created", function(e) {
 function createWindow() {
   mainWindow = new BrowserWindow(windowConfig)
   mainWindow.loadFile("index.html")
-  mainWindow.on("closed", function(e) {
+  mainWindow.on("closed", function (e) {
     console.log("main window closed");
   })
 
   if (debug) {
     mainWindow.webContents.openDevTools();
   }
-  
+
 }
 
 function readyHandler(e) {
@@ -71,3 +71,6 @@ function allClosedHandler(e) {
   }
 }
 
+exports.funcInMain = () => {
+  window.alert("call func in main process");
+}
